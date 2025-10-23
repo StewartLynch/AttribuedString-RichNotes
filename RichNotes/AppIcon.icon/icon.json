@@ -1,0 +1,42 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:1.00000,0.43825,0.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "RichNote.png",
+          "name" : "RichNote",
+          "position" : {
+            "scale" : 0.58,
+            "translation-in-points" : [
+              9.140625,
+              -2.32421875
+            ]
+          }
+        }
+      ],
+      "position" : {
+        "scale" : 2.06,
+        "translation-in-points" : [
+          24.97265625,
+          -2.15234375
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "iOS"
+    ]
+  }
+}
