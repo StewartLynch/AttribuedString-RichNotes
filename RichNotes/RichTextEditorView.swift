@@ -31,7 +31,7 @@ struct RichTextEditorView: View {
                 .navigationTitle("RichText Editor")
                 .toolbarTitleDisplayMode(.inlineLarge)
                 .toolbar {
-                    ToolbarItemGroup(placement: .bottomBar) {
+                    ToolbarItemGroup(placement: .keyboard) {
                         Group {
                             FormatStyleButtons(text: $text, selection: $selection)
                             Spacer()

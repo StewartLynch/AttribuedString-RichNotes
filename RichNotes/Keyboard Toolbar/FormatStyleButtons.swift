@@ -18,11 +18,68 @@
 import SwiftUI
 
 struct FormatStyleButtons: View {
+    @Environment(\.fontResolutionContext) var fontResolutionContext
+    @Binding var text: AttributedString
+    @Binding var selection: AttributedTextSelection
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        var selCopy = selection
+        let states = SelectionState.selectionStyleState(
+            text: text,
+            selection: &selCopy) { font in
+                let resolved = font.resolve(in: fontResolutionContext)
+                return (resolved.isBold, resolved.isItalic)
+            }
+        Button {
+            text.transformAttributes(in: &selection) { container in
+                let currentFont = container.font ?? .default
+                let resolved = currentFont.resolve(in: fontResolutionContext)
+                container.font = currentFont.bold(!resolved.isBold)
+            }
+        } label: {
+            Image(systemName: "bold")
+        }
+        .frame(width: 40, height: 40)
+        .selectedBackground(state: SelectionState.isSelected(for: states.bold))
+        Button {
+            text.transformAttributes(in: &selection) { container in
+                let currentFont = container.font ?? .default
+                let resolved = currentFont.resolve(in: fontResolutionContext)
+                container.font = currentFont.italic(!resolved.isItalic)
+            }
+        } label: {
+            Image(systemName: "italic")
+        }
+        .frame(width: 40, height: 40)
+        .selectedBackground(state: SelectionState.isSelected(for: states.italic))
+        Button {
+            text.transformAttributes(in: &selection) { container in
+                if container.underlineStyle == .single {
+                    container.underlineStyle = .none
+                } else {
+                    container.underlineStyle = .single
+                }
+            }
+        } label: {
+            Image(systemName: "underline")
+        }
+        .frame(width: 40, height: 40)
+        .selectedBackground(state: SelectionState.isSelected(for: states.underline))
+        Button {
+            text.transformAttributes(in: &selection) { container in
+                if container.strikethroughStyle == .single {
+                    container.strikethroughStyle = .none
+                } else {
+                    container.strikethroughStyle = .single
+                }
+            }
+        } label: {
+            Image(systemName: "strikethrough")
+        }
+        .frame(width: 40, height: 40)
+        .selectedBackground(state: SelectionState.isSelected(for: states.strikethrough))
     }
 }
 
 #Preview {
-    FormatStyleButtons()
+    FormatStyleButtons(text: .constant(""), selection:  .constant(AttributedTextSelection()))
 }

@@ -22,7 +22,7 @@ import SwiftData
 struct RichNotesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RichTextEditorView()
         }
     }
 }
