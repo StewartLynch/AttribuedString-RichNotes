@@ -16,13 +16,14 @@
 
 import SwiftUI
 
-public enum ToggleState {
-    case on, off
-}
+import SwiftUI
 
-public enum SelectionStyleHelper {
+enum SelectionState {
+    enum ToggleState {
+        case on, off
+    }
     /// Collects the attribute containers for all runs intersecting the current selection.
-    public static func selectedAttributeContainers(
+    static func selectedAttributeContainers(
         text: AttributedString,
         selection: inout AttributedTextSelection
     ) -> [AttributeContainer] {
@@ -34,26 +35,9 @@ public enum SelectionStyleHelper {
         return containers
     }
 
-    /// Returns the first observed attribute container at the caret (or start of selection).
-    public static func attributesAtCaret(
-        text: AttributedString,
-        selection: inout AttributedTextSelection
-    ) -> AttributeContainer? {
-        var result: AttributeContainer?
-        var captured = false
-        var probe = text
-        probe.transformAttributes(in: &selection) { container in
-            if !captured {
-                result = container
-                captured = true
-            }
-        }
-        return result
-    }
-
-    /// Computes toggle states for common text attributes across the current selection,
+    /// Computes toggle states for the specified text attributes across the current selection,
     /// using a caller-provided resolver for all specified traits.
-    public static func selectionStyleState(
+    static func selectionStyleState(
         text: AttributedString,
         selection: inout AttributedTextSelection,
         resolveTraits: (Font) -> (isBold: Bool, isItalic: Bool)
@@ -90,7 +74,6 @@ public enum SelectionStyleHelper {
         let bodyFontValues: [Bool] = containers.map { $0.font == .body}
         let footnoteFontValues: [Bool] = containers.map { $0.font == .footnote}
        
-
         return (
             bold: collapsed(boldValues),
             italic: collapsed(italicValues),
@@ -107,57 +90,7 @@ public enum SelectionStyleHelper {
         )
     }
 
-    /// Returns a tint color for a given toggle state (nil = default styling).
-    public static func styleTint(for state: ToggleState) -> Color? {
-        switch state {
-        case .on: return .accentColor
-        case .off: return nil
-        }
-    }
-    
-    public static func isSelected(for state: ToggleState) -> Bool {
+    static func isSelected(for state: ToggleState) -> Bool {
         return state == .on
-    }
-}
-
-struct SelectedModifier: ViewModifier {
-    let state: Bool
-    func body(content: Content) -> some View {
-        if state {
-            content
-                .padding(5)
-                .foregroundStyle(.white)
-                .frame(width: 35, height: 35)
-                .background(.tint, in: .circle)
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func selectedBackground(state: Bool) -> some View {
-        modifier(SelectedModifier(state: state))
-    }
-}
-
-struct FontSelectionModifier: ViewModifier {
-    let state: Bool
-    func body(content: Content) -> some View {
-        if state {
-            content
-                .padding(5)
-                .foregroundStyle(.white)
-                .background(.tint, in: .rect(cornerRadius: 8))
-        } else {
-            content
-                .foregroundStyle(.primary)
-        }
-    }
-}
-
-extension View {
-    func fontSelectedBackground(state: Bool) -> some View {
-        modifier(FontSelectionModifier(state: state))
     }
 }
