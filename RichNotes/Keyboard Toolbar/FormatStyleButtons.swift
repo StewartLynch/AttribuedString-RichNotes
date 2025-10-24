@@ -1,7 +1,7 @@
 //
 //----------------------------------------------
 // Original project: RichNotes
-// by  Stewart Lynch on 2025-10-22
+// by  Stewart Lynch on 2025-10-24
 //
 // Follow me on Mastodon: https://iosdev.space/@StewartLynch
 // Follow me on Threads: https://www.threads.net/@stewartlynch
@@ -17,12 +17,12 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct FormatStyleButtons: View {
     var body: some View {
-        Text("Hello, World!")
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    ContentView()
+    FormatStyleButtons()
 }
