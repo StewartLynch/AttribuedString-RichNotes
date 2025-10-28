@@ -1,8 +1,8 @@
 # Attributed String in SwiftUI - RichNotes
 
-![AppIcon128](Images/AppIcon128.png) This is the Completed code for the 1st video in the Attributed String and the RichNotes app series and also serves as the starter project for the 2nd video in the series
+![AppIcon128](Images/AppIcon128.png) This is the Completed code for the 3rd and final in the Attributed String and the RichNotes app series.
 
-Release Date: November 30, 2025
+Release Date: December 7, 2025
 
 If you want to support my work, you can - </br>
 
