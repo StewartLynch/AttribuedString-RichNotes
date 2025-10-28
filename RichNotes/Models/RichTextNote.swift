@@ -1,7 +1,7 @@
 //
 //----------------------------------------------
 // Original project: RichNotes
-// by  Stewart Lynch on 2025-08-16
+// by  Stewart Lynch on 2025-10-28
 //
 // Follow me on Mastodon: https://iosdev.space/@StewartLynch
 // Follow me on Threads: https://www.threads.net/@stewartlynch
@@ -15,18 +15,21 @@
 // Copyright © 2025 CreaTECH Solutions. All rights reserved.
 
 
-import SwiftUI
+import Foundation
 import SwiftData
 
-@main
-struct RichNotesApp: App {
-    var body: some Scene {
-        WindowGroup {
-            NotesView()
-                .modelContainer(for: Category.self)
-                .onAppear {
-                    print(URL.applicationSupportDirectory.path(percentEncoded: false))
-                }
-        }
+@Model
+class RichTextNote {
+    var text: AttributedString
+    var createdOn: Date
+    var updatedOn: Date
+    var category: Category?
+    
+    init(text: AttributedString, createdOn: Date = Date.now, updatedOn: Date = Date.now) {
+        self.text = text
+        self.createdOn = createdOn
+        self.updatedOn = updatedOn
     }
+    
+    static var sample: RichTextNote = RichTextNote(text: "Some sample text")
 }
