@@ -16,7 +16,6 @@
 
 
 import SwiftUI
-import SwiftData
 
 @main
 struct RichNotesApp: App {
