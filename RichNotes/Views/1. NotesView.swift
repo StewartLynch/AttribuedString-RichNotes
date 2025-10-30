@@ -19,59 +19,37 @@ import SwiftUI
 import SwiftData
 
 struct NotesView: View {
-    @Query private var notes: [RichTextNote]
+    
     @Environment(\.modelContext) var context
     @State private var path = NavigationPath()
-    @State private var numLines = 1.0
+
+    @State private var sortByCreation = true
+    @State private var filterCategory = Category.all
+    @Query(sort: \Category.name) var categories: [Category]
     var body: some View {
         NavigationStack(path: $path) {
-            Group {
-                if !notes.isEmpty {
+            VStack {
+                HStack {
                     VStack {
-                        List {
-                            ForEach(notes) { note in
-                                NavigationLink (value: note ){
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            if let category = note.category {
-                                                Circle()
-                                                    .fill(Color(hex: category.hexColor)!)
-                                                    .frame(width: 15)
-                                            } else {
-                                                Circle()
-                                                    .fill(.background)
-                                                    .frame(width: 15)
-                                            }
-                                            Text(note.category?.name ?? Category.uncategorized)
-                                        }
-                                        Text(note.text)
-                                            .lineLimit(Int(numLines))
-                                        VStack(alignment: .trailing){
-                                            Text(note.createdOn, style: .date)
-                                            Text("Updated: \(Text(note.updatedOn, style: .date)) \(Text(note.updatedOn, style: .time))")
-                                        }
-                                        .font(.caption.italic())
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                    }
-                                }
-                            }
-                            .onDelete { indices in
-                                for index in indices {
-                                    context.delete(notes[index])
-                                }
-                                try? context.save()
-                            }
+                        Picker("Sort Order", selection: $sortByCreation) {
+                            Text("Creation Date").tag(true)
+                            Text("Last updated").tag(false)
                         }
-                        .listStyle(.plain)
-                        VStack {
-                            Slider(value: $numLines, in: 1...10)
-                            Text("Displaying ^[\(Int(numLines)) lines](inflect: true)")
-                        }
-                        .padding()
+                        Text("Sort Order")
                     }
-                } else {
-                    ContentUnavailableView("Create your first note", systemImage: "square.and.pencil")
+                    VStack {
+                        Picker("Category Filter", selection: $filterCategory) {
+                            Text(Category.all).tag(Category.all)
+                            Text(Category.uncategorized).tag(Category.uncategorized)
+                            ForEach(categories) { category in
+                                Text(category.name).tag(category.name)
+                            }
+                        }
+                        Text("Category")
+                    }
                 }
+                .buttonStyle(.bordered)
+                NotesListView(sortByCreation: sortByCreation, filterCategory: filterCategory)
             }
             .navigationTitle("Rich Notes")
             .toolbarTitleDisplayMode(.inlineLarge)
