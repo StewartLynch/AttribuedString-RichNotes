@@ -22,31 +22,53 @@ struct NotesView: View {
     @Query private var notes: [RichTextNote]
     @Environment(\.modelContext) var context
     @State private var path = NavigationPath()
+    @State private var numLines = 1.0
     var body: some View {
         NavigationStack(path: $path) {
             Group {
                 if !notes.isEmpty {
-                    List {
-                        ForEach(notes) { note in
-                            NavigationLink (value: note ){
-                                VStack(alignment: .leading) {
-                                    Text(note.text)
-                                    Text("Updated: \(Text(note.updatedOn, style: .date)) \(Text(note.updatedOn, style: .time))")
-                                    if let category = note.category {
-                                        Text(category.name)
-                                            .foregroundStyle(Color(hex: category.hexColor)!)
+                    VStack {
+                        List {
+                            ForEach(notes) { note in
+                                NavigationLink (value: note ){
+                                    VStack(alignment: .leading) {
+                                        HStack {
+                                            if let category = note.category {
+                                                Circle()
+                                                    .fill(Color(hex: category.hexColor)!)
+                                                    .frame(width: 15)
+                                            } else {
+                                                Circle()
+                                                    .fill(.background)
+                                                    .frame(width: 15)
+                                            }
+                                            Text(note.category?.name ?? Category.uncategorized)
+                                        }
+                                        Text(note.text)
+                                            .lineLimit(Int(numLines))
+                                        VStack(alignment: .trailing){
+                                            Text(note.createdOn, style: .date)
+                                            Text("Updated: \(Text(note.updatedOn, style: .date)) \(Text(note.updatedOn, style: .time))")
+                                        }
+                                        .font(.caption.italic())
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
                                 }
                             }
-                        }
-                        .onDelete { indices in
-                            for index in indices {
-                                context.delete(notes[index])
+                            .onDelete { indices in
+                                for index in indices {
+                                    context.delete(notes[index])
+                                }
+                                try? context.save()
                             }
-                            try? context.save()
                         }
+                        .listStyle(.plain)
+                        VStack {
+                            Slider(value: $numLines, in: 1...10)
+                            Text("Displaying ^[\(Int(numLines)) lines](inflect: true)")
+                        }
+                        .padding()
                     }
-                    .listStyle(.plain)
                 } else {
                     ContentUnavailableView("Create your first note", systemImage: "square.and.pencil")
                 }

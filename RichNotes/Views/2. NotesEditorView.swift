@@ -25,11 +25,55 @@ struct NotesEditorView: View {
     @State private var moreEditing = false
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
+    @Query(sort: \Category.name) private var categories: [Category]
+    @State private var selectedCategory: String = Category.uncategorized
+    @State private var editCategories = false
     var body: some View {
-        TextEditor(text: $note.text, selection: $selection)
-            .focused($isFocused)
-            .padding()
-            .scrollBounceBehavior(.basedOnSize)
+        VStack(alignment: .leading){
+            HStack {
+                if categories.isEmpty {
+                    Text("No Categories")
+                } else {
+                    Picker("Category", selection: $selectedCategory) {
+                        Text(Category.uncategorized).tag(Category.uncategorized)
+                        ForEach(categories) { category in
+                            Text(category.name).tag(category.name)
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .onChange(of: selectedCategory) {
+                        if let category = categories.first(where: {$0.name == selectedCategory}) {
+                            note.category = category
+                        } else {
+                            note.category = nil
+                        }
+                        try? context.save()
+                    }
+                    Button {
+                        editCategories.toggle()
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .clipShape(.circle)
+                    .tint(note.category != nil ? Color(hex: note.category!.hexColor)! : .accentColor)
+                    .onAppear {
+                        if let category = note.category {
+                            selectedCategory = category.name
+                        }
+                    }
+                    .sheet(isPresented: $editCategories, onDismiss: {
+                        selectedCategory = note.category?.name ?? Category.uncategorized
+                    }) {
+                        CategoriesView()
+                    }
+                }
+            }
+            TextEditor(text: $note.text, selection: $selection)
+                .focused($isFocused)
+                .scrollBounceBehavior(.basedOnSize)
+        }
+        .padding()
             .navigationTitle("RichText Editor")
             .toolbarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()

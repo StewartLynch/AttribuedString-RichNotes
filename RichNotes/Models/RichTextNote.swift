@@ -31,5 +31,9 @@ class RichTextNote {
         self.updatedOn = updatedOn
     }
     
-    static var sample: RichTextNote = RichTextNote(text: "Some sample text")
+    static var sample: RichTextNote = RichTextNote(text: """
+        Now is the time for all good men to come to the aid of the party.
+        
+        This is going to be a lot of fun.
+        """)
 }
