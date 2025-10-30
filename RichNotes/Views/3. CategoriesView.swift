@@ -78,7 +78,7 @@ struct CategoriesView: View {
                                             action = .edit
                                             selectedCategory = category
                                             categoryName = category.name
-                                            hexColor = Color(Color(hex: category.hexColor)!)
+                                            hexColor = Color(hex: category.hexColor)!
                                         }
                                     } label: {
                                         Image(systemName: "pencil")
