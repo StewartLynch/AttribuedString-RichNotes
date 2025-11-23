@@ -2,7 +2,9 @@
 
 ![AppIcon128](Images/AppIcon128.png) This is the starter project for the 1st video in the Attributed String and the RichNotes app series
 
-Release Date: November 23, 2025
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=-hKpuysa6PM
+" target="_blank"><img src="http://img.youtube.com/vi/-hKpuysa6PM/0.jpg" 
+alt="Attributed Strings" width="480" height="360" border="1" /></a>
 
 If you want to support my work, you can - </br>
 
