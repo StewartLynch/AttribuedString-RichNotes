@@ -1,6 +1,7 @@
 # Attributed String in SwiftUI - RichNotes
 
 ![AppIcon128](Images/AppIcon128.png) This is the Completed code for the 1st video in the Attributed String and the RichNotes app series and also serves as the starter project for the 2nd video in the series
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=SL8yxBGuTuo
 " target="_blank"><img src="http://img.youtube.com/vi/SL8yxBGuTuo/0.jpg" 
 alt="RichText Notes Part 1" width="480" height="360" border="1" /></a>
