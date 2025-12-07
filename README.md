@@ -2,9 +2,9 @@
 
 ![AppIcon128](Images/AppIcon128.png) This is the Completed code for the 2nd video in the Attributed String and the RichNotes app series and also serves as the starter project for the 3rd and final video in the series
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=UUvgm9-yltE
-" target="_blank"><img src="http://img.youtube.com/vi/UUvgm9-yltE/0.jpg" 
-alt="Part 3" width="480" height="360" border="1" /></a>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=SL8yxBGuTuo
+" target="_blank"><img src="http://img.youtube.com/vi/SL8yxBGuTuo/0.jpg" 
+alt="Part 2" width="480" height="360" border="1" /></a>
 
 If you want to support my work, you can - </br>
 
